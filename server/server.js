@@ -57,15 +57,23 @@ app.use('/api/dashboard', protect, require('./routes/dashboardRoutes'));
 app.use('/api/reports', protect, require('./routes/reportRoutes'));
 app.use('/api/expenses', protect, require('./routes/expenseRoutes'));
 
-// For Production: serve static assets from frontend if built
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
+// For Production / Cloud Hosting (Render):
+const fs = require('fs');
+const clientDistPath = path.join(__dirname, '../client/dist');
+
+if (process.env.NODE_ENV === 'production' && fs.existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client', 'dist', 'index.html'));
+    res.sendFile(path.resolve(clientDistPath, 'index.html'));
   });
 } else {
   app.get('/', (req, res) => {
-    res.send('Sri Mens Street Wear Billing & Retail Management System API is running...');
+    res.status(200).json({
+      success: true,
+      service: 'Sri Mens Street Wear Billing & Management API',
+      status: 'healthy',
+      timestamp: new Date().toISOString()
+    });
   });
 }
 
