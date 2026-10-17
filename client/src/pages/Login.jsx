@@ -144,12 +144,7 @@ const Login = () => {
             </div>
 
             {/* Default Admin Note */}
-            {isLoginTab && (
-              <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[10px] text-amber-300/90 flex justify-between items-center">
-                <span>Default Admin: <strong className="text-amber-300">admin</strong></span>
-                <span>Pass: <strong className="text-amber-300">admin123</strong></span>
-              </div>
-            )}
+            
 
             {/* Submit Button */}
             <button
